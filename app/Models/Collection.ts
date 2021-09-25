@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon';
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm';
+import Color from './Color';
+import User from './User';
 
 export default class Collection extends BaseModel {
 	@column({ isPrimary: true })
@@ -8,11 +10,17 @@ export default class Collection extends BaseModel {
 	@column()
 	public name: string;
 
-	@column({ columnName: 'color_id' })
-	public color: number;
+	@column()
+	public colorId: number;
 
-	@column({ columnName: 'user_id' })
-	public user: number;
+	@belongsTo(() => Color, { foreignKey: 'colorId' })
+	public color: BelongsTo<typeof Color>;
+
+	@column()
+	public userId: number;
+
+	@belongsTo(() => User, { foreignKey: 'userId' })
+	public user: BelongsTo<typeof User>;
 
 	@column.dateTime({ autoCreate: true })
 	public createdAt: DateTime;

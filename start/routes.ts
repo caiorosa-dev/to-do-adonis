@@ -23,3 +23,4 @@ import './routes/auth';
 import './routes/collection';
 import './routes/task';
 import './routes/user';
+import './routes/color';

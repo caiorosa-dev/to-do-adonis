@@ -9,14 +9,18 @@ export default class CollectionsController {
 
 		const collections = await Collection.all();
 
-		return collections.filter((collection) => collection.user === userId);
+		const filtered = collections.filter((collection) => collection.userId === userId);
+
+		return filtered;
 	}
 
 	public async store({ request, auth }: HttpContextContract) {
 		const data = await request.validate(CreateCollectionValidator);
 		const user = auth.user?.id;
 
-		const collection = await Collection.create({ name: data.name, color: data.color, user });
+		const collection = await Collection.create({ name: data.name, colorId: data.color, userId: user });
+
+		collection.load('color');
 
 		return collection;
 	}
@@ -25,9 +29,11 @@ export default class CollectionsController {
 		const { id } = params;
 
 		const collection = await Collection.findOrFail(id);
-		if (collection.user === auth.user?.id) {
+		if (collection.userId === auth.user?.id) {
 			return collection;
 		}
+
+		collection.load('color');
 
 		return response.status(401).json({ message: 'Invalid user' });
 	}
@@ -38,7 +44,9 @@ export default class CollectionsController {
 		const user = auth.user?.id;
 
 		const collection = await Collection.findOrFail(id);
-		collection.merge({ name: data.name, color: data.color, user });
+		collection.merge({ name: data.name, colorId: data.color, userId: user });
+
+		collection.load('color');
 
 		await collection.save();
 	}
