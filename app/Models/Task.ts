@@ -15,7 +15,10 @@ export default class Task extends BaseModel {
 	@column()
 	public check: boolean;
 
-	@belongsTo(() => Collection)
+	@column()
+	public collectionId: number;
+
+	@belongsTo(() => Collection, { foreignKey: 'collectionId' })
 	public collection: BelongsTo<typeof Collection>;
 
 	@column.dateTime({ autoCreate: true })
