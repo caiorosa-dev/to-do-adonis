@@ -25,7 +25,7 @@ export default class UpdateCollectionValidator {
 	 */
 	public schema = schema.create({
 		name: schema.string(),
-		color: schema.number([rules.exists({ table: 'colors', column: 'id' })])
+		color_id: schema.number([rules.exists({ table: 'colors', column: 'id' })])
 	});
 
 	/**
