@@ -44,7 +44,7 @@ export default class CollectionsController {
 		const user = auth.user?.id;
 
 		const collection = await Collection.findOrFail(id);
-		collection.merge({ name: data.name, colorId: data.color, userId: user });
+		collection.merge({ name: data.name, colorId: data.color_id, userId: user });
 
 		collection.load('color');
 
