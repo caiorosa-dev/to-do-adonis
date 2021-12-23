@@ -9,6 +9,12 @@ export default class Colors extends BaseSchema {
 
 			table.string('name');
 			table.string('display');
+
+			/**
+			 * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
+			 */
+			table.timestamp('created_at').nullable();
+			table.timestamp('updated_at').nullable();
 		});
 	}
 
