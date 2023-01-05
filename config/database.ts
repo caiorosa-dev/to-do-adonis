@@ -47,6 +47,21 @@ const databaseConfig: DatabaseConfig = {
 			},
 			healthCheck: false,
 			debug: false
+		},
+		pg: {
+			client: 'pg',
+			connection: {
+				host: Env.get('POSTGRES_HOST'),
+				port: Env.get('POSTGRES_PORT'),
+				user: Env.get('POSTGRES_USER'),
+				password: Env.get('POSTGRES_PASSWORD', ''),
+				database: Env.get('POSTGRES_DB_NAME')
+			},
+			migrations: {
+				naturalSort: true
+			},
+			healthCheck: false,
+			debug: false
 		}
 	}
 };
