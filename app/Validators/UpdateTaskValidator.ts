@@ -24,9 +24,8 @@ export default class UpdateTaskValidator {
 	 *    ```
 	 */
 	public schema = schema.create({
-		collection: schema.string({}, [rules.exists({ table: 'collections', column: 'id' })]),
+		collection_id: schema.number([rules.exists({ table: 'collections', column: 'id' })]),
 		content: schema.string({}),
-		date: schema.date(),
 		check: schema.boolean()
 	});
 
