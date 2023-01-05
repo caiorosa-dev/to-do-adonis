@@ -10,24 +10,11 @@
 |
 */
 
-import cluster from 'cluster';
-import os from 'os';
+import 'reflect-metadata';
+import sourceMapSupport from 'source-map-support';
+import { Ignitor } from '@adonisjs/core/build/standalone';
 
-function runPrimaryProcess() {
-	const processesCount = process.env.CLUSTER_SIZE ? process.env.CLUSTER_SIZE : os.cpus().length * 2;
+sourceMapSupport.install({ handleUncaughtExceptions: false });
 
-	console.log(`Started Primary Process (PID: ${process.pid})`);
-	console.log(`Forking ${processesCount} processes...`);
-
-	for (let i = 0; i < processesCount; i++) {
-		cluster.fork();
-	}
-
-	
-}
-
-async function runSecondaryProcess() {
-	await import('./app');
-}
-
-cluster.isPrimary ? runPrimaryProcess() : runSecondaryProcess();
+console.log(`Process forked with success! PID: ${process.pid}`);
+new Ignitor(__dirname).httpServer().start();
